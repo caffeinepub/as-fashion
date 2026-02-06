@@ -1,0 +1,71 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-06T22:07:00.031Z",
+  "summary": "Diff adds XXL/XXXL size variants across backend and frontend, introduces a frontend product image gallery and robust image fallbacks, and begins updating backend seed products to include imageUrls. However, the diff summary does not provide evidence that the required static image files were added under frontend/public/assets/generated, nor that the seeded catalog was expanded with multiple products per requested collections, each referencing those static assets.",
+  "missing_requirements": [
+    {
+      "id": "REQ-11",
+      "requirement": "Store the new product images as static frontend assets under frontend/public/assets/generated and update the backend seed catalog to reference these static paths in each product’s imageUrls array.",
+      "reason": "The diff summary shows frontend code referencing paths like /assets/generated/product-saree-01.dim_900x1200.png, but it does not show any added image files under frontend/public/assets/generated (only code files and a backend Motoko module were added/modified). Also, backend seed imageUrls content is truncated, so it’s not verifiable that it references the required static asset paths for all seeded products.",
+      "evidence": [
+        "frontend/src/components/merch/ProductCard.tsx",
+        "frontend/src/components/merch/ProductGallery.tsx",
+        "frontend/src/pages/ProductDetailPage.tsx",
+        "frontend/src/pages/CartPage.tsx",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "requirement": "Add more product collections by expanding the seeded catalog with additional products across key categories, especially Sarees, Kurtas, Men’s T‑shirts, and Men’s shirts, each with images and appropriate sizes.",
+      "reason": "backend/main.mo shows a productSeedData array and at least one product (“Men's White T-Shirt”), but the seed data is truncated in the diff summary, so there is insufficient evidence that the catalog was expanded to include several sarees, several kurtas, several men’s t-shirts, and several men’s shirts, each with required fields and valid image URLs.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "requirement": "Add visible images for every product in the catalog so product cards and product detail pages always show real product pictures (not broken links).",
+      "reason": "Frontend components implement fallbacks and a gallery, but because backend seed data is truncated and no static image assets are shown as added, it cannot be confirmed that all seeded products returned by the backend include at least one valid image URL pointing to working static assets (and not placeholders).",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/merch/ProductCard.tsx",
+        "frontend/src/components/merch/ProductGallery.tsx",
+        "frontend/src/pages/ProductDetailPage.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Added a Motoko state migration module and applied it via `(with migration = Migration.run)` to convert old Size/order/cart types to new ones.",
+      "reason": "The BuildRequest requests adding XXL/XXXL and updating seed data/images, but does not request introducing a migration system or a new backend module outside backend/main.mo (and explicitly constrains backend logic to remain in backend/main.mo).",
+      "evidence": [
+        "backend/migration.mo",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "description": "Implemented frontend-wide image error handling with a hardcoded fallback image (/assets/generated/product-saree-01.dim_900x1200.png) for product cards, cart items, and the product gallery.",
+      "reason": "The BuildRequest requires real product images and no broken links; it does not explicitly request adding fallback behavior or using a saree image as a universal fallback.",
+      "evidence": [
+        "frontend/src/components/merch/ProductCard.tsx",
+        "frontend/src/components/merch/ProductGallery.tsx",
+        "frontend/src/pages/CartPage.tsx",
+        "frontend/src/pages/ProductDetailPage.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.62,
+  "changed_files": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "frontend-file-summaries.txt",
+    "frontend/src/components/merch/ProductCard.tsx",
+    "frontend/src/components/merch/ProductGallery.tsx",
+    "frontend/src/components/merch/VariantSelector.tsx",
+    "frontend/src/pages/CartPage.tsx",
+    "frontend/src/pages/ProductDetailPage.tsx",
+    "project_state.json"
+  ]
+}

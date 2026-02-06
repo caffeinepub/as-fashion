@@ -1,0 +1,106 @@
+{
+  "kind": "build_request",
+  "title": "Add product images, expand catalog collections, and support XXL/XXXL sizes",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-10",
+      "text": "Add visible images for every product in the catalog, with special coverage for Sarees, Kurtas, Men’s T‑shirts, and Men’s shirts, so product cards and product detail pages always show real product pictures (not broken links).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "I Didn't See Any Picture For My app Pls add Saree Pic And All product image ... Add Some picture for saree And Kurtas and T shirt Male shirt all pictures add by product"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All seeded catalog products returned by the backend include at least 1 valid image URL.",
+        "Category pages render product cards with a non-placeholder image for all seeded products.",
+        "Product detail pages render a working image gallery for products with multiple images.",
+        "No catalog product image URLs point to non-working placeholder domains (e.g., example.com)."
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Store the new product images as static frontend assets under frontend/public/assets/generated and update the backend seed catalog to reference these static paths in each product’s imageUrls array.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "add Saree Pic And All product image ... all pictures add by product"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All new product image files are present under frontend/public/assets/generated (or a subfolder) and are served by the frontend as static assets.",
+        "Backend seed data uses static asset paths (e.g., /assets/generated/...) in imageUrls so the frontend can load them without backend image serving.",
+        "No backend endpoint is added to serve images."
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "text": "Expand apparel size variants to include XXL and XXXL (where applicable) and ensure size selection UI supports and correctly labels these sizes.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Add size xxl xxxl"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend Size type includes XXL and XXXL variants and compiles successfully.",
+        "Seeded apparel products that logically support extended sizes include XXL and/or XXXL in availableSizes.",
+        "Frontend size selector shows XXL and XXXL as labels (e.g., \"XXL\", \"XXXL\") and can add items to cart using these sizes without runtime errors."
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "text": "Add more product collections by expanding the seeded catalog with additional products across key categories, especially Sarees, Kurtas, Men’s T‑shirts, and Men’s shirts, each with images and appropriate sizes.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "And More collections please"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The seeded catalog contains multiple products per requested collection (at minimum: several sarees, several kurtas, several men’s t-shirts, and several men’s shirts).",
+        "New seeded products appear in the relevant category pages in the UI without requiring manual admin entry.",
+        "Each newly added seeded product includes name, description, price, category, color, availableSizes, and at least one valid image URL."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor with all logic in backend/main.mo.",
+    "Do not edit files under frontend/src/components/ui, frontend/src/hooks/useInternetIdentity.ts(x), frontend/src/hooks/useActor.ts, or frontend/src/main.tsx.",
+    "Do not serve images from the backend; images must be static frontend assets.",
+    "Use English for all user-facing text."
+  ],
+  "nonGoals": [
+    "Adding an admin UI for uploading/managing products.",
+    "Integrating external image hosting, CMS, or external databases.",
+    "Adding online payments or third-party checkout integrations."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Product photo of a women’s saree, front drape (product-saree-01.dim_900x1200.png)",
+      "Product photo of a women’s saree, folded fabric detail/texture (product-saree-02.dim_900x1200.png)",
+      "Product photo of a women’s kurta, full front view (product-kurta-01.dim_900x1200.png)",
+      "Product photo of a women’s kurta, close-up pattern detail (product-kurta-02.dim_900x1200.png)",
+      "Product photo of a men’s t-shirt, front view (product-men-tshirt-01.dim_900x1200.png)",
+      "Product photo of a men’s t-shirt, lifestyle/angled view (product-men-tshirt-02.dim_900x1200.png)",
+      "Product photo of a men’s shirt, front view (product-men-shirt-01.dim_900x1200.png)",
+      "Product photo of a men’s shirt, folded collar/cuff detail (product-men-shirt-02.dim_900x1200.png)",
+      "Product photo of an additional saree, alternate colorway (product-saree-03.dim_900x1200.png)",
+      "Product photo of an additional kurta, alternate colorway (product-kurta-03.dim_900x1200.png)"
+    ],
+    "edits": []
+  }
+}

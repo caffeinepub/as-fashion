@@ -1,0 +1,64 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-add-visible-images-for-every-product-in-the-catalog-with-special-coverage-for-sarees-kurtas-men-s-t-shirts-and-men-s-shirts-so-product-cards-and-product-detail-pages-always-show-real-product-pictures-not-broken-links",
+      "featureTitle": "Add visible images for every product in the catalog, with special coverage for Sarees, Kurtas, Men’s T‑shirts, and Men’s shirts, so product cards and product detail pages always show real product pictures (not broken links).",
+      "files": [
+        "frontend/src/components/merch/ProductCard.tsx",
+        "frontend/src/components/merch/ProductGallery.tsx",
+        "frontend/src/pages/CartPage.tsx",
+        "frontend/src/pages/ProductDetailPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-store-the-new-product-images-as-static-frontend-assets-under-frontend-public-assets-generated-and-update-the-backend-seed-catalog-to-reference-these-static-paths-in-each-product-s-imageurls-array",
+      "featureTitle": "Store the new product images as static frontend assets under frontend/public/assets/generated and update the backend seed catalog to reference these static paths in each product’s imageUrls array.",
+      "files": [],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-expand-apparel-size-variants-to-include-xxl-and-xxxl-where-applicable-and-ensure-size-selection-ui-supports-and-correctly-labels-these-sizes",
+      "featureTitle": "Expand apparel size variants to include XXL and XXXL (where applicable) and ensure size selection UI supports and correctly labels these sizes.",
+      "files": [
+        "frontend/src/components/merch/VariantSelector.tsx",
+        "frontend/src/pages/ProductDetailPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-12"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

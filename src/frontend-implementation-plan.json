@@ -1,0 +1,121 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Catalog product images + static generated assets + XXL/XXXL size UI support",
+  "requirements": [
+    {
+      "id": "REQ-10",
+      "summary": "Ensure catalog product cards and product detail pages always render real, non-broken product images (including multi-image galleries) for all products.",
+      "acceptanceCriteria": [
+        "All seeded catalog products returned by the backend include at least 1 valid image URL.",
+        "Category pages render product cards with a non-placeholder image for all seeded products.",
+        "Product detail pages render a working image gallery for products with multiple images.",
+        "No catalog product image URLs point to non-working placeholder domains (e.g., example.com)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/merch/ProductCard.tsx",
+          "operation": "modify",
+          "description": "Harden product card image rendering: prefer the first valid image URL, add an image load error fallback that switches to a known-good local generated asset, and avoid showing broken images."
+        },
+        {
+          "path": "frontend/src/components/merch/ProductGallery.tsx",
+          "operation": "modify",
+          "description": "Harden product detail gallery rendering: sanitize the incoming images list (remove empty values), handle broken image loads by falling back to a known-good local generated asset, and keep carousel/thumbnail navigation functional with multiple images."
+        },
+        {
+          "path": "frontend/src/pages/ProductDetailPage.tsx",
+          "operation": "modify",
+          "description": "Ensure the product detail page passes a safe, non-empty image array to ProductGallery (and provides a local generated fallback when imageUrls are missing/invalid) so the gallery never displays broken images."
+        },
+        {
+          "path": "frontend/src/pages/CartPage.tsx",
+          "operation": "modify",
+          "description": "Update cart item thumbnail rendering to match catalog behavior (use first valid image URL, add onError fallback to a known-good local generated asset) to prevent broken images throughout the shopping flow."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Add the required product images as static frontend assets under frontend/public/assets/generated so the UI can load them from static paths.",
+      "acceptanceCriteria": [
+        "All new product image files are present under frontend/public/assets/generated (or a subfolder) and are served by the frontend as static assets.",
+        "Backend seed data uses static asset paths (e.g., /assets/generated/...) in imageUrls so the frontend can load them without backend image serving.",
+        "No backend endpoint is added to serve images."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/product-saree-01.dim_900x1200.png",
+          "operation": "create",
+          "description": "Add generated static product image asset for saree (front drape)."
+        },
+        {
+          "path": "frontend/public/assets/generated/product-saree-02.dim_900x1200.png",
+          "operation": "create",
+          "description": "Add generated static product image asset for saree (folded fabric detail/texture)."
+        },
+        {
+          "path": "frontend/public/assets/generated/product-kurta-01.dim_900x1200.png",
+          "operation": "create",
+          "description": "Add generated static product image asset for kurta (full front view)."
+        },
+        {
+          "path": "frontend/public/assets/generated/product-kurta-02.dim_900x1200.png",
+          "operation": "create",
+          "description": "Add generated static product image asset for kurta (close-up pattern detail)."
+        },
+        {
+          "path": "frontend/public/assets/generated/product-men-tshirt-01.dim_900x1200.png",
+          "operation": "create",
+          "description": "Add generated static product image asset for men’s t-shirt (front view)."
+        },
+        {
+          "path": "frontend/public/assets/generated/product-men-tshirt-02.dim_900x1200.png",
+          "operation": "create",
+          "description": "Add generated static product image asset for men’s t-shirt (lifestyle/angled view)."
+        },
+        {
+          "path": "frontend/public/assets/generated/product-men-shirt-01.dim_900x1200.png",
+          "operation": "create",
+          "description": "Add generated static product image asset for men’s shirt (front view)."
+        },
+        {
+          "path": "frontend/public/assets/generated/product-men-shirt-02.dim_900x1200.png",
+          "operation": "create",
+          "description": "Add generated static product image asset for men’s shirt (folded collar/cuff detail)."
+        },
+        {
+          "path": "frontend/public/assets/generated/product-saree-03.dim_900x1200.png",
+          "operation": "create",
+          "description": "Add generated static product image asset for an additional saree (alternate colorway)."
+        },
+        {
+          "path": "frontend/public/assets/generated/product-kurta-03.dim_900x1200.png",
+          "operation": "create",
+          "description": "Add generated static product image asset for an additional kurta (alternate colorway)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "summary": "Support XXL and XXXL size variants in the size selection UI with correct labels and selection behavior.",
+      "acceptanceCriteria": [
+        "Backend Size type includes XXL and XXXL variants and compiles successfully.",
+        "Seeded apparel products that logically support extended sizes include XXL and/or XXXL in availableSizes.",
+        "Frontend size selector shows XXL and XXXL as labels (e.g., \"XXL\", \"XXXL\") and can add items to cart using these sizes without runtime errors."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/merch/VariantSelector.tsx",
+          "operation": "modify",
+          "description": "Extend the size label map to include xxl -> \"XXL\" and xxxl -> \"XXXL\" and ensure all Size enum values used by the backend are safely label-rendered."
+        },
+        {
+          "path": "frontend/src/pages/ProductDetailPage.tsx",
+          "operation": "modify",
+          "description": "Verify size selection/add-to-cart behavior remains valid with the new XXL/XXXL sizes (no runtime errors when selecting and adding to cart)."
+        }
+      ]
+    }
+  ]
+}
